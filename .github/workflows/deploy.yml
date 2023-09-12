@@ -72,7 +72,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v3
         with:
           aws-region: ap-northeast-2
-          role-to-assume: arn:aws:iam::332034673285:role/github-OIDC
+          role-to-assume: arn:aws:iam::332034673285:role/MyGithubOIDC
           role-session-name: MyGithubOIDC
 
       - name: Login to Amazon ECR
