@@ -9,6 +9,14 @@ on:
       - stage
       - main
 
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  SHA: ${{ github.sha }}
+  ECR_REPOSITORY: 'hh-nestjs'
+
 jobs:
   test:
     name: test nestjs
