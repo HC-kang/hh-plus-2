@@ -125,6 +125,7 @@ jobs:
           NAME: weston0713 # 계정 명
           REPO: nestjs # 레포 이름
         run: |
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           docker build -t $REPO .
           docker tag $REPO:${{ github.sha }} $NAME/$REPO:${{ github.sha }}
           docker push $NAME/$REPO:${{ github.sha }}
