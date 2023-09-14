@@ -15,8 +15,8 @@ permissions:
 
 env:
   SHA: ${{ github.sha }}
-  ECR_REPOSITORY_NESTJS: 'hh-nestjs-modified'
-  ECR_REPOSITORY_NGINX: 'hh-nginx'
+  ECR_REPOSITORY_NESTJS: 'hh-nginx'
+  ECR_REPOSITORY_NGINX: 'hh-nestjs-modified'
   DATABASE_CONNECTION: 'postgres'
   DATABASE_HOST: '127.0.0.1'
   DATABASE_PORT: '5432'
