@@ -11,8 +11,9 @@ permissions:
   contents: read
 
 env:
-  SHA: ${{ github.sha }}
   ECR_REPOSITORY_NESTJS: 'hhp-nestjs'
+  ECS_SERVICE_NAME: 'hhp-nestjs'
+  ECS_CLUSTER_NAME: 'hhp-cluster'
   DATABASE_CONNECTION: 'postgres'
   DATABASE_HOST: '127.0.0.1'
   DATABASE_PORT: '5432'
@@ -107,7 +108,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_NESTJS }}:latest
+          tags: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_NESTJS }}:${{ github.sha }}
           build-args: |
             DATABASE_CONNECTION=${{ env.DATABASE_CONNECTION }}
             DATABASE_HOST=${{ env.DATABASE_HOST }}
@@ -116,11 +117,25 @@ jobs:
             DATABASE_PASSWORD=${{ env.DATABASE_PASSWORD }}
             DATABASE_NAME=${{ env.DATABASE_NAME }}
 
-      #     # Deploy to ECS
-      # - name: Deploy to ECS
-      #   uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-      #   with:
-      #     task-definition: task-definition.json
-      #     service: ${{ env.ECS_SERVICE_NAME }}
-      #     cluster: ${{ env.ECS_CLUSTER_NAME }}
-      #     wait-for-service-stability: true
+      - name: Fill in the new image ID in the Amazon ECS task definition
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: task-definition.json
+          container-name: ${{ env.ECR_REPOSITORY_NESTJS }}
+          image: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_NESTJS }}:${{ github.sha }}
+
+      - name: configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          aws-region: ap-northeast-2
+          role-to-assume: arn:aws:iam::332034673285:role/MyGithubOIDC
+          role-session-name: MyGithubOIDC
+
+      - name: Deploy Amazon ECS task definition
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: ${{ env.ECS_SERVICE_NAME }}
+          cluster: ${{ env.ECS_CLUSTER_NAME }}
+          wait-for-service-stability: false
