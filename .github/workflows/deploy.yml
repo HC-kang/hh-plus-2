@@ -116,9 +116,9 @@ jobs:
         uses: docker/build-push-action@v5.0.0
         with:
           context: .
-          # file: ./Dockerfile
+          file: ./Dockerfile
           push: true
-          tags: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_NESTJS }}:${{ github.sha }}
+          tags: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_NESTJS }}:latest
 
       #     # Deploy to ECS
       # - name: Deploy to ECS
