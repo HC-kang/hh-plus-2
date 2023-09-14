@@ -1,9 +1,6 @@
 name: ci-cd-pipeline
 
 on:
-  push: # for test
-    branches:
-      - develop
   pull_request:
     branches:
       - stage
@@ -103,14 +100,6 @@ jobs:
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
-
-      - name: Build and push Nginx
-        uses: docker/build-push-action@v5.0.0
-        with:
-          context: ./nginx
-          file: ./nginx/Dockerfile
-          push: true
-          tags: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_NGINX }}:latest
 
       - name: Build and push NestJS
         uses: docker/build-push-action@v5.0.0
