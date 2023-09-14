@@ -12,8 +12,7 @@ permissions:
 
 env:
   SHA: ${{ github.sha }}
-  ECR_REPOSITORY_NESTJS: 'hh-nestjs'
-  ECR_REPOSITORY_NGINX: 'hh-nginx'
+  ECR_REPOSITORY_NESTJS: 'hhp-nestjs'
   DATABASE_CONNECTION: 'postgres'
   DATABASE_HOST: '127.0.0.1'
   DATABASE_PORT: '5432'
@@ -109,6 +108,13 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_NESTJS }}:latest
+          build-args: |
+            DATABASE_CONNECTION=${{ env.DATABASE_CONNECTION }}
+            DATABASE_HOST=${{ env.DATABASE_HOST }}
+            DATABASE_PORT=${{ env.DATABASE_PORT }}
+            DATABASE_USERNAME=${{ env.DATABASE_USERNAME }}
+            DATABASE_PASSWORD=${{ env.DATABASE_PASSWORD }}
+            DATABASE_NAME=${{ env.DATABASE_NAME }}
 
       #     # Deploy to ECS
       # - name: Deploy to ECS
