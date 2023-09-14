@@ -2,7 +2,7 @@ FROM nginx:alpine
 
 RUN rm -rf /etc/nginx/conf.d/*
 
-COPY nginx.conf /etc/nginx/conf.d/nginx.conf
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 RUN rm -rf /usr/share/nginx/html/*
 
