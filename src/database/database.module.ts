@@ -4,9 +4,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
   imports: [
-    // TypeOrmModule.forRootAsync({
-    //   useFactory: databaseConfig,
-    // }),
+    TypeOrmModule.forRootAsync({
+      useFactory: databaseConfig,
+    }),
   ],
 })
 export class DatabaseModule {}
