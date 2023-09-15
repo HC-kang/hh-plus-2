@@ -14,12 +14,12 @@ env:
   ECR_REPOSITORY_NESTJS: 'hhp-nestjs'
   ECS_SERVICE_NAME: 'hhp-nestjs'
   ECS_CLUSTER_NAME: 'hhp-cluster'
-  DATABASE_CONNECTION: 'postgres'
-  DATABASE_HOST: '127.0.0.1'
-  DATABASE_PORT: '5432'
-  DATABASE_USERNAME: 'postgres'
-  DATABASE_PASSWORD: 'postgres'
-  DATABASE_NAME: 'postgres'
+  DATABASE_CONNECTION: ${{ secrets.DATABASE_CONNECTION }}
+  DATABASE_HOST: ${{ secrets.DATABASE_HOST }}
+  DATABASE_PORT: ${{ secrets.DATABASE_PORT }}
+  DATABASE_USERNAME: ${{ secrets.DATABASE_USERNAME }}
+  DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+  DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
 
 jobs:
   test:
@@ -64,7 +64,6 @@ jobs:
       - name: run tests
         run: npm run test
 
-      # //TODO: add e2e tests
       # - name: run e2e tests
       #   run: npm run test:e2e
 
