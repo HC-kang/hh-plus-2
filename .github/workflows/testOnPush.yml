@@ -62,8 +62,7 @@ jobs:
       - name: run tests
         run: npm run test
 
-      - name: Notify Slack on Failure
-        if: failure()
+      - name: Notify Result to Slack
         uses: 8398a7/action-slack@v3.15.1
         with:
           status: ${{ job.status }}
