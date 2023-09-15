@@ -2,7 +2,7 @@ version: "3"
 services:
   app:
     env_file:
-      - .env
+      - .env.development
     container_name: ci-cd-pipeline
     restart: always
     build: .
@@ -23,7 +23,7 @@ services:
       - postgres:/data/postgres
       - ./init-data.sh:/docker-entrypoint-initdb.d/init-data.sh
     env_file:
-      - .env
+      - .env.development
 
   nginx:
     image: nginx:alpine
