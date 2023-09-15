@@ -33,6 +33,14 @@ services:
     ports:
       - "81:80"
 
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    build: ./nginx
+    restart: always
+    ports:
+      - "81:80"
+
 volumes:
   postgres:
     driver: local
