@@ -56,6 +56,12 @@ jobs:
       - name: install dependencies
         run: npm install
 
+      - name: Debug Database Connection
+        run: |
+          apt-get update
+          apt-get install -y postgresql-client
+          psql -h postgres -U ${{ env.DATABASE_USERNAME }} -d ${{ env.DATABASE_NAME }} -c 'SELECT 1'
+
       - name: run lint
         run: npm run lint
 
