@@ -1,6 +1,8 @@
-FROM node:18-alpine as dist
+FROM node:18-alpine
 
 COPY package*.json ./
+
+RUN echo "test"
 
 RUN npm ci
 
