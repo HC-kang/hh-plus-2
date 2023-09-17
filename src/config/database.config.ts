@@ -1,5 +1,7 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 
+const isProduction = process.env.NODE_ENV === 'production';
+
 export default (): TypeOrmModuleOptions => ({
   type: process.env.DATABASE_CONNECTION as any,
   host: process.env.DATABASE_HOST,
@@ -11,4 +13,9 @@ export default (): TypeOrmModuleOptions => ({
   entities: [__dirname + '/../**/*.entity{.ts,.js}'],
   migrations: [__dirname + '/../database/**migrations/*{.ts,.js}'],
   migrationsTableName: 'migrations',
+  extra: isProduction
+    ? {
+        ssl: { rejectUnauthorized: false },
+      }
+    : undefined,
 });

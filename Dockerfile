@@ -1,13 +1,33 @@
-FROM node:18-alpine
+# ----------------------------------------
+## Build for Local development
+# ----------------------------------------
+FROM node:18-alpine as development
 
-COPY package*.json ./
-
-RUN echo "test"
-
-RUN npm ci
+# ----------------------------------------
+## Build for production
+# ----------------------------------------
+FROM development as build
 
 COPY . ./
 
+ENV NPM_CONFIG_LOGLEVEL warn
+ENV NODE_ENV production
+
+RUN npm ci
 RUN npm run build
+RUN npm prune --production
+USER node
+
+# ----------------------------------------
+## Run for production
+# ----------------------------------------
+FROM development as production
+
+COPY --chown=node:node --from=build /dist /dist
+COPY --chown=node:node --from=build /node_modules /node_modules
+COPY --chown=node:node --from=build /package.json /package.json
+COPY --chown=node:node --from=build /.env.production /.env.production
 
 CMD ["node", "dist/main.js"]
+EXPOSE 3000
+USER node
