@@ -8,14 +8,18 @@ FROM node:18-alpine as development
 # ----------------------------------------
 FROM development as build
 
+ARG NODE_ENV=$NODE_ENV
+ARG DATABASE_CONNECTION=$DATABASE_CONNECTION
+ARG DATABASE_HOST=$DATABASE_HOST
+ARG DATABASE_PORT=$DATABASE_PORT
+ARG DATABASE_USERNAME=$DATABASE_USERNAME
+ARG DATABASE_PASSWORD=$DATABASE_PASSWORD
+ARG DATABASE_NAME=$DATABASE_NAME
+
 COPY . .
 
 ENV NPM_CONFIG_LOGLEVEL warn
 ENV NODE_ENV=production
-
-RUN echo "Building for production"
-RUN pwd
-RUN ls -al
 
 # for devDependencies
 RUN NODE_ENV=development npm ci 
@@ -30,6 +34,8 @@ FROM development as production
 
 COPY --chown=node:node --from=build /dist /dist
 COPY --chown=node:node --from=build /node_modules /node_modules
+
+ENV NODE_ENV=production
 
 CMD ["node", "dist/main.js"]
 EXPOSE 3000
