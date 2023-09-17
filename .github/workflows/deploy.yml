@@ -108,7 +108,8 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_NESTJS }}:${{ github.sha }}
-          build-args: |
+          build-args:
+            NODE_ENV=production
             DATABASE_CONNECTION=${{ env.DATABASE_CONNECTION }}
             DATABASE_HOST=${{ env.DATABASE_HOST }}
             DATABASE_PORT=${{ env.DATABASE_PORT }}
