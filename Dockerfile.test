@@ -2,12 +2,12 @@ FROM node:18-alpine as test
 
 COPY package*.json ./
 
-ENV NODE_ENV=test
+RUN npm install
 
-RUN npm ci
+ENV NODE_ENV=test
 
 COPY . ./
 
-RUN npm run build
+RUN echo "DATABASE_HOST=postgres" >> .env.test
 
 CMD ["npm", "run", "test:e2e"]
