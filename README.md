@@ -1,18 +1,37 @@
-# 01-ci-cd-pipeline
+# hhp-nestjs-app
 
-## how to run in local
+## How To Run
 
-```bash
-cp .env.example .env
+1. 로컬 개발 환경
 
-docker-compose up postgres
+    ```bash
+    docker-compose up postgres
 
-npm ci
-npm run start:dev
+    npm ci
+    npm run start:dev
 
-npm run test
-npm run test:e2e # if it pass, the health check is ok
-```
+    npm run test
+    npm run test:e2e # if it pass, the health check is ok
+    ```
+
+2. 로컬 개발 환경(도커)
+
+    ```bash
+    docker-compose up
+    ```
+
+3. e2e 테스트
+
+    ```bash
+    docker-compose up postgres
+    npm run test:e2e
+    ```
+
+    혹은
+
+    ```bash
+    npm run test:e2e:docker
+    ```
 
 ## health check
 

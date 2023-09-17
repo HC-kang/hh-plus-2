@@ -1,5 +1,5 @@
 {
-  "name": "01-ci-cd-pipeline",
+  "name": "hhp-nestjs-app",
   "version": "0.0.1",
   "description": "",
   "author": "",
@@ -7,8 +7,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "prebuild": "rimraf dist",
-    "build": "npm run prebuild && cross-env NODE_ENV=production nest build",
-    "build:stage": "npm run prebuild && cross-env NODE_ENV=stage nest build",
+    "build": "npm run prebuild && nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "cross-env NODE_ENV=production nest start",
     "start:dev": "npm run prebuild && cross-env NODE_ENV=development nest start --watch",
@@ -20,7 +19,8 @@
     "test:watch": "cross-env NODE_ENV=test jest --watch --maxWorkers=1  --forceExit",
     "test:cov": "cross-env NODE_ENV=test jest --coverage  --forceExit",
     "test:debug": "cross-env NODE_ENV=test node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand  --forceExit",
-    "test:e2e": "cross-env NODE_ENV=test jest --config ./test/jest-e2e.json --maxWorkers=1  --forceExit --detectOpenHandles"
+    "test:e2e": "cross-env NODE_ENV=test jest --config ./test/jest-e2e.json --maxWorkers=1  --forceExit --detectOpenHandles",
+    "test:e2e:docker": "docker-compose -f ./docker-compose.test.yml up --build --exit-code-from app"
   },
   "dependencies": {
     "@nestjs/axios": "^3.0.0",
