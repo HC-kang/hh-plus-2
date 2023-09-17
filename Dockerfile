@@ -17,12 +17,13 @@ ARG DATABASE_PASSWORD
 ARG DATABASE_NAME
 
 ENV NODE_ENV=$NODE_ENV
-ENV DATABASE_CONNECTION=$DATABASE_CONNECTION
-ENV DATABASE_HOST=$DATABASE_HOST
-ENV DATABASE_PORT=$DATABASE_PORT
-ENV DATABASE_USERNAME=$DATABASE_USERNAME
-ENV DATABASE_PASSWORD=$DATABASE_PASSWORD
-ENV DATABASE_NAME=$DATABASE_NAME
+
+RUN echo "DATABASE_CONNECTION=$DATABASE_CONNECTION" >> .env.production
+RUN echo "DATABASE_HOST=$DATABASE_HOST" >> .env.production
+RUN echo "DATABASE_PORT=$DATABASE_PORT" >> .env.production
+RUN echo "DATABASE_USERNAME=$DATABASE_USERNAME" >> .env.production
+RUN echo "DATABASE_PASSWORD=$DATABASE_PASSWORD" >> .env.production
+RUN echo "DATABASE_NAME=$DATABASE_NAME" >> .env.production
 
 COPY . .
 
@@ -42,8 +43,9 @@ FROM development as production
 
 COPY --chown=node:node --from=build /dist /dist
 COPY --chown=node:node --from=build /node_modules /node_modules
+COPY --chown=node:node --from=build /.env.production /.env.production
 
-ENV NODE_ENV=production
+ENV NODE_ENV=$NODE_ENV
 
 CMD ["node", "dist/main.js"]
 EXPOSE 3000
