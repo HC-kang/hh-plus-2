@@ -8,7 +8,9 @@ FROM node:18-alpine as development
 # ----------------------------------------
 FROM development as build
 
-COPY . ./
+WORKDIR /usr/src/app
+
+COPY . .
 
 ENV NPM_CONFIG_LOGLEVEL warn
 ENV NODE_ENV production

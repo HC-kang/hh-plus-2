@@ -8,7 +8,6 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "npm run prebuild && nest build",
-    "build:stage": "npm run prebuild && nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "cross-env NODE_ENV=production nest start",
     "start:dev": "npm run prebuild && cross-env NODE_ENV=development nest start --watch",
