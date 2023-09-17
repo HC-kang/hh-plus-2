@@ -8,15 +8,12 @@ FROM node:18-alpine as development
 # ----------------------------------------
 FROM development as build
 
-ARG NODE_ENV
 ARG DATABASE_CONNECTION
 ARG DATABASE_HOST
 ARG DATABASE_PORT
 ARG DATABASE_USERNAME
 ARG DATABASE_PASSWORD
 ARG DATABASE_NAME
-
-ENV NODE_ENV=$NODE_ENV
 
 RUN echo "DATABASE_CONNECTION=$DATABASE_CONNECTION" >> .env.production
 RUN echo "DATABASE_HOST=$DATABASE_HOST" >> .env.production
@@ -45,7 +42,8 @@ COPY --chown=node:node --from=build /dist /dist
 COPY --chown=node:node --from=build /node_modules /node_modules
 COPY --chown=node:node --from=build /.env.production /.env.production
 
-ENV NODE_ENV=$NODE_ENV
+ENV NODE_ENV=production
+RUN echo "this is NODE_ENV"
 RUN echo ${NODE_ENV}
 RUN pwd
 RUN ls -al
