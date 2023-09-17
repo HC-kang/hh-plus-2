@@ -18,7 +18,7 @@ RUN pwd
 RUN ls -al
 
 # for devDependencies
-RUN NODE_ENV=development npm ci 
+RUN npm install
 RUN npm run build
 RUN npm prune --production
 USER node
