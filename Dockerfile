@@ -46,6 +46,10 @@ COPY --chown=node:node --from=build /node_modules /node_modules
 COPY --chown=node:node --from=build /.env.production /.env.production
 
 ENV NODE_ENV=$NODE_ENV
+RUN echo ${NODE_ENV}
+RUN pwd
+RUN ls -al
+RUN cat .env.production
 
 CMD ["node", "dist/main.js"]
 EXPOSE 3000
