@@ -1,6 +1,9 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 
-const isProduction = process.env.NODE_ENV === 'production';
+// RDS Postgres SSL 설정때문에 추가
+const isProduction =
+  process.env.NODE_ENV === 'production' ||
+  process.env.GITHUB_ACTIONS === 'true';
 
 export default (): TypeOrmModuleOptions => ({
   type: process.env.DATABASE_CONNECTION as any,
