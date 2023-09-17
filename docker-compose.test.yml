@@ -1,8 +1,6 @@
 version: "3"
 services:
   app:
-    env_file:
-      - .env.test
     container_name: hhp-nestjs-app
     restart: always
     build:
@@ -12,8 +10,6 @@ services:
       - "3000:3000"
     links:
       - postgres
-    volumes:
-      - ./:/usr/src/app
 
   postgres:
     image: postgres
@@ -23,14 +19,3 @@ services:
       POSTGRES_PASSWORD: postgres
     ports:
       - "5432:5432"
-    volumes:
-      - postgres:/data/postgres
-      - ./init-data.sh:/docker-entrypoint-initdb.d/init-data.sh
-    env_file:
-      - .env.test
-
-volumes:
-  app:
-    driver: local
-  postgres:
-    driver: local

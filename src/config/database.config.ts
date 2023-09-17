@@ -2,9 +2,8 @@ import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 
 // RDS Postgres SSL 설정때문에 추가
 // GITHUB_ACTIONS 환경변수는 Github Actions에서만 사용되는 환경변수. 해결방법 찾아야 할듯.
-const isProduction =
-  process.env.NODE_ENV === 'production' ||
-  process.env.GITHUB_ACTIONS === 'true';
+const isGithubActions = process.env.GITHUB_ACTIONS === 'true';
+const isProduction = process.env.NODE_ENV === 'production';
 
 export default (): TypeOrmModuleOptions => ({
   type: process.env.DATABASE_CONNECTION as any,
@@ -17,9 +16,10 @@ export default (): TypeOrmModuleOptions => ({
   entities: [__dirname + '/../**/*.entity{.ts,.js}'],
   migrations: [__dirname + '/../database/**migrations/*{.ts,.js}'],
   migrationsTableName: 'migrations',
-  extra: isProduction
-    ? {
-        ssl: { rejectUnauthorized: false },
-      }
-    : undefined,
+  extra:
+    isProduction || isGithubActions
+      ? {
+          ssl: { rejectUnauthorized: false },
+        }
+      : undefined,
 });
