@@ -19,7 +19,8 @@ RUN echo "Building for production"
 RUN pwd
 RUN ls -al
 
-RUN NODE_ENV=development npm ci
+# for devDependencies
+RUN NODE_ENV=development npm ci 
 RUN npm run build
 RUN npm prune --production
 USER node
@@ -31,8 +32,6 @@ FROM development as production
 
 COPY --chown=node:node --from=build /usr/src/app/dist /usr/src/app/dist
 COPY --chown=node:node --from=build /usr/src/app/node_modules /usr/src/app/node_modules
-COPY --chown=node:node --from=build /usr/src/app/package.json /usr/src/app/package.json
-COPY --chown=node:node --from=build /usr/src/app/.env.production /usr/src/app/.env.production
 
 CMD ["node", "dist/main.js"]
 EXPOSE 3000
