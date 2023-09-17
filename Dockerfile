@@ -8,8 +8,6 @@ FROM node:18-alpine as development
 # ----------------------------------------
 FROM development as build
 
-WORKDIR /usr/src/app
-
 COPY . .
 
 ENV NPM_CONFIG_LOGLEVEL warn
@@ -30,8 +28,8 @@ USER node
 # ----------------------------------------
 FROM development as production
 
-COPY --chown=node:node --from=build /usr/src/app/dist /usr/src/app/dist
-COPY --chown=node:node --from=build /usr/src/app/node_modules /usr/src/app/node_modules
+COPY --chown=node:node --from=build /dist /dist
+COPY --chown=node:node --from=build /node_modules /node_modules
 
 CMD ["node", "dist/main.js"]
 EXPOSE 3000
