@@ -13,7 +13,11 @@ WORKDIR /usr/src/app
 COPY . .
 
 ENV NPM_CONFIG_LOGLEVEL warn
-ENV NODE_ENV production
+ENV NODE_ENV=production
+
+RUN echo "Building for production"
+RUN echo pwd
+RUN echo ls -al
 
 RUN npm ci
 RUN npm run build
