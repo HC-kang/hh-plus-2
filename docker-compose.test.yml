@@ -3,8 +3,6 @@ services:
   app:
     env_file:
       - .env.test
-    environment:
-      - DATABASE_HOST=postgres
     container_name: hhp-nestjs-app
     restart: always
     build:
