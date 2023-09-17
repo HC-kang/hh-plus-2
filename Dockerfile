@@ -19,7 +19,7 @@ RUN echo "Building for production"
 RUN pwd
 RUN ls -al
 
-RUN npm ci
+RUN NODE_ENV=development npm ci
 RUN npm run build
 RUN npm prune --production
 USER node
